@@ -6,7 +6,84 @@
     <title>Simple ToDo</title>
 </head>
 <body>
-    <div>template</div>
+    <main>
+        <article class="project-container">
+            <section class="project-header">
+                <div>
+                    <h1 class="project-name">Project Name</h1>
+                    <h2 class="current-date"><span class="month">JAN</span><span class="date">21</span></h2>
+                </div>
+                <div>   
+                <label for="ProjectSelection">Selected Project: </label>
+                <select name="projectSelection" id="ProjectSelection">
+                    <option value="project1" selected>Project 1</option>
+                </select>
+                </div>
+            </section>
+            <section class="list-container">
+                <ul class="task-list">
+                    <li>
+                        <div class="task-container">
+                            <section class="task-item">
+                                <form action="" id="task1">
+                                <fieldset>
+                                    <legend class="task-name">Task1</legend>
+                            
+                                    <div class="task-left">
+                                        <div>
+                                            <input type="text" placeholder="Task 1" class="task-title">
+                                        </div>
+                                        
+                                        <div>
+                                            <input type="date" name="dueDate" id="dueDate">
+                                            <select name="taskPriority" id="taskPriority">
+                                                <option value="low" selected>Low</option>
+                                                <option value="med" >Medium</option>
+                                                <option value="high" >High</option>
+                                            </select>
+                                            <button class="delete">X</button>
+                                        </div>
+
+                                    </div>
+                                    <div class="task-right">
+                                        <input type="checkbox" name="complete" id="complete">
+                                    </div>
+                                </fieldset>
+                            </form>
+                            </section>
+
+                        </div>
+                    </li>
+                </ul>
+            </section>
+            <button class="add-task">Add Task</button>
+        </article>
+        <div class="divider"></div>
+        <article class="note-container">
+            <section class="task-header">
+                <div>
+                    <h3 class="project-name">
+                        project-name
+                    </h3>
+                    <h1 class="task-name">
+                        Task 1
+                    </h1>
+                </div>
+                <div>
+                    <h2 class="due-date">Due <span>01/01/2024</span></h2>
+                    <h2 class="priority">Priority <span>High</span></h2>
+                </div>
+            </section>
+            <section class="task-note">
+                <label for="taskDesc">Task Details:</label>
+                <textarea name="taskDesc" id="taskDesc" cols="30" rows="10" class="taskdescription"></textarea>
+            </section>
+
+        </article>
+
+
+
+    </main>
     
 </body>
 </html>
