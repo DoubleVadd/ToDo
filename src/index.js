@@ -2,6 +2,8 @@ import createTasks from "./Objects/tasks"
 import createProject from "./Objects/projects";
 import projectHandler from "./Objects/projectHandler";
 import storageAvailable from "./Objects/localStorageHandler";
+import DomDisplay from "./Domhandler/displayer";
+import domInteraction from "./Domhandler/domInteraction";
 
 const task1 = createTasks('cool');
 const task2 = createTasks('superb');
@@ -40,5 +42,13 @@ if (storageStatus){
 storageStatus ? allProj.loadProject(localStorage.getItem('projectData')) : allProj
 
 console.log(allProj)
+
+const a = DomDisplay()
+console.log(task1.getAll())
+a.createTask(task2.getAll())
+a.createTask(task3.getAll())
+a.createTask(task4.getAll())
+a.createTask(task5.getAll())
+
 
 

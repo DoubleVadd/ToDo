@@ -7,6 +7,31 @@
 </head>
 <body>
     <main>
+
+        <dialog class="task-dialog" open>
+            <form action="" class="create-task">
+                <legend>Create Task</legend>
+                <input type="text" placeholder="Task 1" class="create-title">
+                <input type="textarea" placeholder="Description" class="create-desc">
+                <select name="taskPriority" id="createTaskPriority">
+                    <option value="low" selected>Low</option>
+                    <option value="med" >Medium</option>
+                    <option value="high" >High</option>
+                </select>
+                <input type="date" name="dueDate" id="CreateDueDate">
+                <button type="button" class="task-create">create</button>
+
+            </form>
+        </dialog>
+        <dialog class="project-dialog">
+            <form action=""class='create Project'>
+                <legend>Create Project</legend>
+                <input type="text" placeholder="Project 1" class="create-title">
+                <input type="text" placeholder="Project Description" class="create-desc">
+                <button class="create">create</button>
+            </form>
+        </dialog>
+
         <article class="project-container">
             <section class="project-header">
                 <div>

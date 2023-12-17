@@ -35,6 +35,10 @@ const createTasks = (Name='',desc='',date=new Date(),priority='low',complete=fal
 
     const changeCompletion = () => taskComplete ? taskComplete = false : taskComplete = true ;
 
+    const getAll = () => {
+        return {taskName: taskName, taskDesc: taskDesc, taskDate: taskDate, taskPriority: taskPriority,taskComplete: taskComplete}
+    };
+
     const importTasks = (taskObj) => {
         taskObj = JSON.parse(taskObj);
         taskName = taskObj.taskName;
@@ -49,7 +53,7 @@ const createTasks = (Name='',desc='',date=new Date(),priority='low',complete=fal
         return JSON.stringify(all)
     }
 
-    return {getDate, getName, getDesc, getPrior, getComplete, changeDate, changePriority, changeName, changeDesc, changeCompletion,importTasks,exportTask}
+    return {getDate, getName, getDesc, getPrior, getComplete, changeDate, changePriority, changeName, changeDesc, changeCompletion,importTasks,exportTask,getAll}
 }
 
 
