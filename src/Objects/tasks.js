@@ -4,7 +4,6 @@ const createTasks = (Name='',desc='',date=new Date(),priority='low',complete=fal
     let taskDate = date;
     let taskPriority = priority;
     let taskComplete = complete;
-    
 
     const getDate = () => taskDate;
     const getName = () => taskName;
@@ -36,7 +35,21 @@ const createTasks = (Name='',desc='',date=new Date(),priority='low',complete=fal
 
     const changeCompletion = () => taskComplete ? taskComplete = false : taskComplete = true ;
 
-    return {getDate, getName, getDesc, getPrior, getComplete, changeDate, changePriority, changeName, changeDesc, changeCompletion}
+    const importTasks = (taskObj) => {
+        taskObj = JSON.parse(taskObj);
+        taskName = taskObj.taskName;
+        taskDesc = taskObj.taskDesc;
+        taskDate = taskObj.taskDate;
+        taskPriority = taskObj.taskPriority;
+        taskComplete = taskObj.taskComplete;
+    }
+
+    const exportTask = () => {
+        let all = {taskName,taskDesc,taskDate,taskPriority,taskComplete}
+        return JSON.stringify(all)
+    }
+
+    return {getDate, getName, getDesc, getPrior, getComplete, changeDate, changePriority, changeName, changeDesc, changeCompletion,importTasks,exportTask}
 }
 
 

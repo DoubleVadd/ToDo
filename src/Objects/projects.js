@@ -1,7 +1,7 @@
 const createProject = (projectName='', projectDesc='') => {
-    const name = projectName;
-    const desc = projectDesc;
-    const taskList = [];
+    let name = projectName;
+    let desc = projectDesc;
+    let taskList = [];
     let taskCount = taskList.length;
 
     const getCount = () => taskCount;
@@ -23,7 +23,21 @@ const createProject = (projectName='', projectDesc='') => {
         }
     }
 
-    return {getCount,getName,getDesc,getTasks,changeName,changeDesc,addTask,removeTask}
+    const importProject = (taskProject) => {
+        taskProject = JSON.parse(taskProject);
+        name = taskProject.name;
+        desc = taskProject.desc;
+    }
+
+    const exportProject = () => {
+        let all = {name,desc}
+        return JSON.stringify(all)
+    }
+
+
+
+
+    return {getCount,getName,getDesc,getTasks,changeName,changeDesc,addTask,removeTask,importProject,exportProject}
 
 }
 
