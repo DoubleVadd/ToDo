@@ -5,8 +5,8 @@ import storageAvailable from "./Objects/localStorageHandler";
 import DomDisplay from "./Domhandler/displayer";
 import domInteraction from "./Domhandler/domInteraction";
 
-const task1 = createTasks('cool');
-const task2 = createTasks('Cool2')
+const task1 = createTasks('cool','Coolest everest man');
+const task2 = createTasks('Cool2', 'cool wamen')
 const task3 = createTasks('sad')
 const proj2 = createProject('saddest')
 const proj = createProject('coolest');

@@ -7,6 +7,9 @@ const domInteraction = (() => {
     let ProjectID = 0;
     const getProjectID = () => ProjectID
     const setProjectID = (newID) => ProjectID = newID
+    const currentTask = {currentTitle:'',currentDesc:'',currentPriority:'low',currentDate:'',currentCompletion:''}
+
+
 
     // Project selection and updating the tasks visible based on the current selected project
     // Keep track of the current project with setProjectID.
@@ -28,6 +31,7 @@ const domInteraction = (() => {
             const selectedProject = allProj.showProject()[e.target.value]
             selectedProject.getTasks().forEach((task, taskIndex) => {
                 DomDisplay.createTask(task.getAll(), `${getProjectID()}p${taskIndex}`)
+                taskUpdate(task, `${getProjectID()}p${taskIndex}`)
             })            
             taskOpen(allProj.showProject()[e.target.value])
         })
@@ -40,17 +44,32 @@ const domInteraction = (() => {
         tasks.forEach( (task, taskIndex) => {
             const taskID = task.id
             const taskInfo = currentProj.getTasks()[taskIndex]
-            console.log(taskInfo)
             task.addEventListener('click', e =>{
-                console.log(taskInfo)
-                DomDisplay.taskDisplay(taskInfo.getAll())
+                console.log(taskID)
+                DomDisplay.taskDisplay(taskInfo.getAll(), taskID)
+                noteUpdate(taskInfo, taskID)
             })
 
         })
     }
 
+    const noteUpdate = (currentTask, taskID) => {
+        const taskDesc = document.querySelector(`#note-${taskID} #taskDesc`)
+        taskDesc.addEventListener('input', e => {
+            currentTask.changeDesc(e.target.value)
+        })
+
+    }
+
     const taskUpdate = (currentTask, taskID) => {
-        console.log('a')
+        // change for each
+        const taskTitle = document.querySelector(`#task-${taskID} .task-title`)
+        const taskPriority = document.querySelector(`#task-${taskID} #taskPriority`)
+        // const taskDesc = document.querySelector(`#note-${taskID} #taskDesc`)
+        taskTitle.addEventListener('input', e => currentTask.changeName(e.target.value))
+        
+        taskPriority.addEventListener('input', e => currentTask.changePriority(e.target.value))
+
 
     }
 
