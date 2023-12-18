@@ -65,9 +65,10 @@ const domInteraction = (() => {
         // change for each
         const taskTitle = document.querySelector(`#task-${taskID} .task-title`)
         const taskPriority = document.querySelector(`#task-${taskID} #taskPriority`)
+        const taskComplete = document.querySelector(`#task-${taskID} #complete`)
         // const taskDesc = document.querySelector(`#note-${taskID} #taskDesc`)
         taskTitle.addEventListener('input', e => currentTask.changeName(e.target.value))
-        
+        taskComplete.addEventListener('input', e=> currentTask.changeCompletion())
         taskPriority.addEventListener('input', e => currentTask.changePriority(e.target.value))
 
 
@@ -95,7 +96,8 @@ const domInteraction = (() => {
         const taskDesc = document.querySelector('.create-desc')
         const taskPriority = document.querySelector('#createTaskPriority')
         const taskDate = document.querySelector('#CreateDueDate')
-        return {taskName:taskName.value,taskDesc:taskDesc.value,taskDate:taskDate.value,taskPriority:taskPriority.value}
+        const taskComplete = document.querySelector('#complete')
+        return {taskName:taskName.value,taskDesc:taskDesc.value,taskDate:taskDate.value,taskPriority:taskPriority.value, taskComplete:taskComplete.checked}
     }
 
     const taskModalGet = (() => {

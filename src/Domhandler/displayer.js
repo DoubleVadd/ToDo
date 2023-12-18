@@ -46,7 +46,7 @@ const DomDisplay = (() =>{
 
                                         </div>
                                         <div class="task-right">
-                                            <input type="checkbox" name="complete" id="complete ${task.taskComplete = true ? 'selected = true' : 'selected=false'}">
+                                            <input type="checkbox" name="complete" id="complete" ${task.taskComplete == true ? 'Checked' : ''}>
                                         </div>
                                     </fieldset>
                                 </form>
