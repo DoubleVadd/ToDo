@@ -6,23 +6,18 @@ import DomDisplay from "./Domhandler/displayer";
 import domInteraction from "./Domhandler/domInteraction";
 
 const task1 = createTasks('cool');
-const task2 = createTasks('superb');
-const task3 = createTasks('tragic');
-const task5 = createTasks('eternal')
-const task4 = createTasks('doom')
+const task2 = createTasks('Cool2')
+const task3 = createTasks('sad')
+const proj2 = createProject('saddest')
 const proj = createProject('coolest');
-const proj2 = createProject('uncooler')
 const allProj = projectHandler()
 const storageStatus = storageAvailable('localStorage');
 
 proj.addTask(task1);
 proj.addTask(task2);
-proj.addTask(task3);
-proj2.addTask(task4);
-proj2.addTask(task5);
-// window.proj = proj;
+proj2.addTask(task3)
 allProj.addProject(proj);
-allProj.addProject(proj2)
+allProj.addProject(proj2);
 
 
 if (storageStatus && localStorage.getItem('projectData')){
@@ -32,7 +27,6 @@ if (storageStatus && localStorage.getItem('projectData')){
     console.log('No Storage Found')
 }
 
-
 if (storageStatus){
     // console.log(allProj)
     localStorage.setItem('projectData',allProj.exportProject())
@@ -41,14 +35,14 @@ if (storageStatus){
 
 storageStatus ? allProj.loadProject(localStorage.getItem('projectData')) : allProj
 
-console.log(allProj)
 
-const a = DomDisplay()
-console.log(task1.getAll())
-a.createTask(task2.getAll())
-a.createTask(task3.getAll())
-a.createTask(task4.getAll())
-a.createTask(task5.getAll())
+
+// console.log(task1.getAll())
+// DomDisplay.createTask(task1.getAll())
+
+// domInteraction.taskModalGet()
+domInteraction.projectSelectionOption(allProj)
+domInteraction
 
 
 

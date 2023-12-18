@@ -1,8 +1,19 @@
-const DomDisplay = () =>{
+
+
+const DomDisplay = (() =>{
+    
+
+    // Clears the current list of tasks, used with project selection
+    const clearTask = () => {
+        const taskList = document.querySelector('.task-list')
+        taskList.innerHTML = '';
+    }
+    // Creates the project, best used with iterating through the current exisiting projects.
     const createTask = (task, id) => {
         const taskList = document.querySelector('.task-list')
         const li = document.createElement('li')
         li.id = id
+        li.className = 'individualTask'
         li.innerHTML = `
             <div class="task-container">
                 <section class="task-item">
@@ -38,8 +49,23 @@ const DomDisplay = () =>{
         `
         taskList.append(li);
     }
+
+    // Displays the Task details on the right side of the screen, should be activated when task is clicked from the task list
+    const taskDisplay = (task, taskID) => {
+        const taskName = document.querySelector('.task-name-big')
+        taskName.textContent = task.taskName
+        const taskPriority = document.querySelector('.priority')
+        taskPriority.textContent = task.taskPriority
+        const taskDueDate = document.querySelector('.due-date')
+        taskDueDate.textContent = task.taskDate
+        const taskDesc = document.querySelector('#taskDesc')
+        taskDesc.value = task.taskDesc
+
+    }
     
-    return {createTask}
-}
+    
+    return {createTask, clearTask, taskDisplay}
+})();
+
 
 export default DomDisplay
