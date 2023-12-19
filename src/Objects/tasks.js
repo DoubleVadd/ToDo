@@ -11,12 +11,7 @@ const createTasks = (Name='',desc='',date=new Date(),priority='low',complete=fal
     const getPrior = () => taskPriority;
     const getComplete = () => taskComplete;
 
-    const changeDate = (newDate) => {
-        if (newDate instanceof Date){
-            taskDate = newDate;
-        }
-        return;
-    }
+    const changeDate = (newDate) => taskDate = new Date(newDate);
 
     const changePriority = (priority) => {
         if (priority === 'low'){

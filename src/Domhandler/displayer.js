@@ -2,6 +2,31 @@
 
 const DomDisplay = (() =>{
     
+    const dayMonthFormatter = (day, month)=> {
+        let thisDay = ''
+        let thisMonth = ''
+        const allMonth = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+        switch (day) {
+            case 1:
+            case 21:
+            case 31:
+                thisDay = `${day}st`
+                break;
+            case 2:
+            case 22:
+                thisDay = `${day}nd`
+                break;
+            case 3:
+            case 23:
+                thisDay = `${day}rd`
+                break;
+            default:
+                thisDay = `${day}th`
+                break;
+        }
+        return allMonth[month] +" " + thisDay
+
+    }
 
     // Clears the current list of tasks, used with project selection
     const clearTask = () => {
@@ -14,6 +39,13 @@ const DomDisplay = (() =>{
         taskNote.innerHTML = '';
     }
 
+    const updateHeader = (projectName) => {
+        const currentProj = document.querySelector('.project-header .project-name')
+        const currentDate = document.querySelector('.project-header .current-date')
+        const thisDate = new Date()
+        currentProj.textContent = projectName
+        currentDate.textContent = `${dayMonthFormatter(thisDate.getDate(),thisDate.getMonth())}` 
+    }
 
 
     // Creates the project, best used with iterating through the current exisiting projects.
@@ -35,7 +67,7 @@ const DomDisplay = (() =>{
                                     </div>
                                             
                                     <div>
-                                        <input type="date" name="dueDate" id="dueDate" value="${task.taskDate}">
+                                        <input type="date" name="dueDate" id="dueDate" value="${task.taskDate.toISOString().split('T')[0]}">
                                         <select name="taskPriority" id="taskPriority">
                                                     <option value="low"  ${task.taskPriority === 'low' ? 'selected>low' : '>low'}</option>
                                                     <option value="med"  ${task.taskPriority === 'med' ? 'selected>med' : '>med'}</option>
@@ -58,16 +90,15 @@ const DomDisplay = (() =>{
         taskList.append(li);
     }
 
-    const createNote = (task, id) => {
+    const createNote = (task,projectName, id) => {
         const taskNote = document.querySelector('.note-container')
         taskNote.id = "note-"+id
         taskNote.innerHTML = `<section class="task-header">
                 <div>
                     <h3 class="project-name">
-                        project-name
+                        ${projectName}
                     </h3>
                     <h1 class="task-name-big">
-                        ${task.taskName}
                     </h1>
                 </div>
                 <div>
@@ -82,15 +113,15 @@ const DomDisplay = (() =>{
     }
 
     // Displays the Task details on the right side of the screen, should be activated when task is clicked from the task list
-    const taskDisplay = (task, taskID) => {
+    const taskDisplay = (task,projectName, taskID) => {
         clearNote()
-        createNote(task, taskID)
+        createNote(task,projectName, taskID)
         const taskName = document.querySelector('.task-name-big')
         taskName.textContent = task.taskName
         const taskPriority = document.querySelector('.priority')
         taskPriority.textContent = task.taskPriority
         const taskDueDate = document.querySelector('.due-date')
-        taskDueDate.textContent = task.taskDate
+        taskDueDate.value = task.taskDate
         const taskDesc = document.querySelector('#taskDesc')
         taskDesc.value = task.taskDesc
         
@@ -98,7 +129,7 @@ const DomDisplay = (() =>{
     }
     
     
-    return {createTask, clearTask, taskDisplay, clearNote}
+    return {createTask, clearTask, taskDisplay, clearNote, updateHeader}
 })();
 
 

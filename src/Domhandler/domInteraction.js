@@ -29,6 +29,7 @@ const domInteraction = (() => {
             DomDisplay.clearTask()
             setProjectID([e.target.value])
             const selectedProject = allProj.showProject()[e.target.value]
+            DomDisplay.updateHeader(selectedProject.getName())
             selectedProject.getTasks().forEach((task, taskIndex) => {
                 DomDisplay.createTask(task.getAll(), `${getProjectID()}p${taskIndex}`)
                 taskUpdate(task, `${getProjectID()}p${taskIndex}`)
@@ -46,7 +47,7 @@ const domInteraction = (() => {
             const taskInfo = currentProj.getTasks()[taskIndex]
             task.addEventListener('click', e =>{
                 console.log(taskID)
-                DomDisplay.taskDisplay(taskInfo.getAll(), taskID)
+                DomDisplay.taskDisplay(taskInfo.getAll(),currentProj.getName(), taskID)
                 noteUpdate(taskInfo, taskID)
             })
 
@@ -66,10 +67,12 @@ const domInteraction = (() => {
         const taskTitle = document.querySelector(`#task-${taskID} .task-title`)
         const taskPriority = document.querySelector(`#task-${taskID} #taskPriority`)
         const taskComplete = document.querySelector(`#task-${taskID} #complete`)
+        const taskDate = document.querySelector(`#task-${taskID} #dueDate`)
         // const taskDesc = document.querySelector(`#note-${taskID} #taskDesc`)
         taskTitle.addEventListener('input', e => currentTask.changeName(e.target.value))
         taskComplete.addEventListener('input', e=> currentTask.changeCompletion())
         taskPriority.addEventListener('input', e => currentTask.changePriority(e.target.value))
+        taskDate.addEventListener('input', e => currentTask.changeDate(e.target.value))
 
 
     }
