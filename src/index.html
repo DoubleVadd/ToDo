@@ -26,9 +26,9 @@
         <dialog class="project-dialog">
             <form action=""class='create Project'>
                 <legend>Create Project</legend>
-                <input type="text" placeholder="Project 1" class="create-title">
-                <input type="text" placeholder="Project Description" class="create-desc">
-                <button class="create">create</button>
+                <input type="text" placeholder="Project 1" class="create-title project-title">
+                <input type="text" placeholder="Project Description" class="create-desc project-title">
+                <button type="button" class="project-create">create</button>
             </form>
         </dialog>
 
@@ -38,11 +38,15 @@
                     <h1 class="project-name">Project Name</h1>
                     <h2 class="current-date"><span class="month">JAN</span><span class="date">21</span></h2>
                 </div>
+                <div>
+                    <h4 class="project-description">description</h4>
+                </div>
                 <div>   
-                <label for="ProjectSelection">Selected Project: </label>
-                <select name="projectSelection" id="ProjectSelection">
-                    <option value="project1" selected>Project 1</option>
-                </select>
+                    <label for="ProjectSelection">Selected Project: </label>
+                    <select name="projectSelection" id="ProjectSelection">
+                        <option value="project1" selected>Project 1</option>
+                    </select>
+                    <button class="add-project">Add Project</button>
                 </div>
             </section>
             <section class="list-container">

@@ -33,18 +33,24 @@ const DomDisplay = (() =>{
         const taskList = document.querySelector('.task-list')
         taskList.innerHTML = '';
     }
+    const clearProjectSelection = () => {
+        const taskNote = document.querySelector('#ProjectSelection')
+        taskNote.innerHTML = '';
+    }
     // Clears the note of selected task, called when task is selected
     const clearNote = () => {
         const taskNote = document.querySelector('.note-container')
         taskNote.innerHTML = '';
     }
 
-    const updateHeader = (projectName) => {
+    const updateHeader = (projectName, projectDescription) => {
         const currentProj = document.querySelector('.project-header .project-name')
+        const currentProjDesc = document.querySelector('.project-header .project-description')
         const currentDate = document.querySelector('.project-header .current-date')
         const thisDate = new Date()
         currentProj.textContent = projectName
         currentDate.textContent = `${dayMonthFormatter(thisDate.getDate(),thisDate.getMonth())}` 
+        currentProjDesc.textContent = projectDescription
     }
 
     const createTaskModal = (id) => {
@@ -64,6 +70,18 @@ const DomDisplay = (() =>{
                 <button type="button" class="task-create">create</button>
 
             </form>`
+    }
+
+    const createProjectModal = (id) => {
+        const modalDialog = document.querySelector('.add-project')
+        modalDialog.id = `modalProject-${id}`
+        modalDialog.innerHTML = `<form action=""class='create Project'>
+        <legend>Create Project</legend>
+        <input type="text" placeholder="New Project" class="create-title project-title">
+        <input type="text" placeholder="Project Description" class="create-desc project-title">
+        <button class="project-create">create</button>
+        </form>`
+
     }
 
     // Creates the project, best used with iterating through the current exisiting projects.
@@ -147,7 +165,7 @@ const DomDisplay = (() =>{
     }
     
     
-    return {createTask, clearTask, taskDisplay, clearNote, updateHeader, createTaskModal}
+    return {createTask, clearTask, taskDisplay, clearNote, updateHeader, createTaskModal, clearProjectSelection}
 })();
 
 
