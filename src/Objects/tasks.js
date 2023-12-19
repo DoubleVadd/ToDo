@@ -3,7 +3,7 @@ const createTasks = (Name='',desc='',date=new Date(),priority='low',complete=fal
     let taskDesc = desc;
     let taskDate = date;
     let taskPriority = priority;
-    let taskComplete = complete;
+    let taskComplete = false;
 
     const getDate = () => taskDate;
     const getName = () => taskName;

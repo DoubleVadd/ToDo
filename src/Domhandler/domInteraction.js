@@ -1,5 +1,6 @@
 import projectHandler from "../Objects/projectHandler";
 import DomDisplay from "./displayer";
+import createTasks from "../Objects/tasks";
 
 const domInteraction = (() => {
     
@@ -7,6 +8,7 @@ const domInteraction = (() => {
     let ProjectID = 0;
     const getProjectID = () => ProjectID
     const setProjectID = (newID) => ProjectID = newID
+    
     const currentTask = {currentTitle:'',currentDesc:'',currentPriority:'low',currentDate:'',currentCompletion:''}
 
 
@@ -26,27 +28,31 @@ const domInteraction = (() => {
         });
 
         currentProject.addEventListener("change", e =>{
-            DomDisplay.clearTask()
-            setProjectID([e.target.value])
             const selectedProject = allProj.showProject()[e.target.value]
-            DomDisplay.updateHeader(selectedProject.getName())
-            selectedProject.getTasks().forEach((task, taskIndex) => {
-                DomDisplay.createTask(task.getAll(), `${getProjectID()}p${taskIndex}`)
-                taskUpdate(task, `${getProjectID()}p${taskIndex}`)
-            })            
-            taskOpen(allProj.showProject()[e.target.value])
+            DomDisplay.createTaskModal(`${getProjectID()}`)
+            projectSelectionRender(selectedProject, e.target.value)
+            modalOpen(selectedProject, `${getProjectID()}`)
         })
     }
 
+    const projectSelectionRender = (selectedProject, projectID) => {
+        DomDisplay.clearTask()
+        setProjectID([projectID])
+        DomDisplay.updateHeader(selectedProject.getName())
+        selectedProject.getTasks().forEach((task, taskIndex) => {
+            DomDisplay.createTask(task.getAll(), `${getProjectID()}p${taskIndex}`)
+            taskUpdate(task, `${getProjectID()}p${taskIndex}`)
+        })
+        taskOpen(selectedProject)                   
+        }
+
     // Opens the task on the right side of the page
     const taskOpen = (currentProj) => {
-        console.log('working')
         const tasks = document.querySelectorAll('.individualTask');
         tasks.forEach( (task, taskIndex) => {
             const taskID = task.id
             const taskInfo = currentProj.getTasks()[taskIndex]
             task.addEventListener('click', e =>{
-                console.log(taskID)
                 DomDisplay.taskDisplay(taskInfo.getAll(),currentProj.getName(), taskID)
                 noteUpdate(taskInfo, taskID)
             })
@@ -80,14 +86,30 @@ const domInteraction = (() => {
 
     // MODALS -------------------------------------------------------//
 
-    const modalOpen = (() => {
+    const modalOpen = (thisProj, id) => {
         const taskModal = document.querySelector('.task-dialog');
+        const createButton = document.querySelector('.task-create')
         const taskOpenButton = document.querySelector('.add-task');
+        const newTaskModal = taskModalGet(thisProj, id, taskModal, createButton)
         taskOpenButton.addEventListener('click', () =>{
             taskModal.showModal();
-            taskModalGet()
+            newTaskModal
         })
-    })()
+        
+    }
+
+    const taskModalGet = ((thisProj, id, taskModal, createButton) => {
+        console.log('b')
+        createButton.addEventListener('click', e => {
+            console.log(e, createButton)
+            const taskInfo = taskModalInfo()
+            const newTask = createTasks(taskInfo.Name, taskInfo.desc, new Date(taskInfo.date), taskInfo.priority, taskInfo.complete)
+            thisProj.addTask(newTask)
+            projectSelectionRender(thisProj, id)
+
+            taskModal.close()       
+        })
+    })
     
     /**
      * Captures input data from create task
@@ -100,20 +122,17 @@ const domInteraction = (() => {
         const taskPriority = document.querySelector('#createTaskPriority')
         const taskDate = document.querySelector('#CreateDueDate')
         const taskComplete = document.querySelector('#complete')
-        return {taskName:taskName.value,taskDesc:taskDesc.value,taskDate:taskDate.value,taskPriority:taskPriority.value, taskComplete:taskComplete.checked}
+        // Name?: string, desc?: string, date?: Date, priority?: string, complete?: boolean
+        // return taskName.value, taskDesc.value, taskDate.value, taskPriority.value, complete:taskComplete.checked
+        return {Name:taskName.value,
+            desc:taskDesc.value,
+            date:taskDate.value || new Date(),
+            priority:taskPriority.value, 
+            complete:taskComplete.checked
+        }
     }
 
-    const taskModalGet = (() => {
-        const taskModal = document.querySelector('.task-dialog')
-        const createButton = document.querySelector('.task-create')
-        createButton.addEventListener('click', e => {
-            taskModal.close()
 
-            return taskModalInfo()
-        }
-        )
-        }
-        )
         
         return {projectSelectionOption}
 })();

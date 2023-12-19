@@ -47,6 +47,24 @@ const DomDisplay = (() =>{
         currentDate.textContent = `${dayMonthFormatter(thisDate.getDate(),thisDate.getMonth())}` 
     }
 
+    const createTaskModal = (id) => {
+        const modalDialog = document.querySelector('.task-dialog')
+        modalDialog.id = `modal-${id}`
+        modalDialog.innerHTML = `
+            <form action="" class="create-task">
+                <legend>Create Task</legend>
+                <input type="text" placeholder="Task 1" class="create-title">
+                <input type="textarea" placeholder="Description" class="create-desc">
+                <select name="taskPriority" id="createTaskPriority">
+                    <option value="low" selected>Low</option>
+                    <option value="med" >Medium</option>
+                    <option value="high" >High</option>
+                </select>
+                <input type="date" name="dueDate" id="CreateDueDate">
+                <button type="button" class="task-create">create</button>
+
+            </form>`
+    }
 
     // Creates the project, best used with iterating through the current exisiting projects.
     const createTask = (task, id) => {
@@ -102,7 +120,7 @@ const DomDisplay = (() =>{
                     </h1>
                 </div>
                 <div>
-                    <h2 class="due-date">Due <span>${task.taskDate}</span></h2>
+                    <h2 class="due-date">Due <span>${task.taskDate.getDate()}/${task.taskDate.getMonth()+1}/${task.taskDate.getFullYear()}</span></h2>
                     <h2 >Priority <span class="priority">${task.taskPriority}</span></h2>
                 </div>
             </section>
@@ -129,7 +147,7 @@ const DomDisplay = (() =>{
     }
     
     
-    return {createTask, clearTask, taskDisplay, clearNote, updateHeader}
+    return {createTask, clearTask, taskDisplay, clearNote, updateHeader, createTaskModal}
 })();
 
 
