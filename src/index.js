@@ -36,11 +36,7 @@ if (storageStatus){
 storageStatus ? allProj.loadProject(localStorage.getItem('projectData')) : allProj
 
 
-
-// console.log(task1.getAll())
-// DomDisplay.createTask(task1.getAll())
-
-// domInteraction.taskModalGet()
+domInteraction.initialLoad(allProj)
 domInteraction.projectSelectionOption(allProj)
 domInteraction
 

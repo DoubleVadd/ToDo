@@ -12,7 +12,12 @@ const domInteraction = (() => {
     
     const currentTask = {currentTitle:'',currentDesc:'',currentPriority:'low',currentDate:'',currentCompletion:''}
 
-
+    const initialLoad = (allProj) => {
+        document.addEventListener("DOMContentLoaded", () => {
+            console.log("DOM fully loaded and parsed");
+            projectSelectionRender(allProj.showProject()[0], 0)
+        });
+    }
 
     // Project selection and updating the tasks visible based on the current selected project
     // Keep track of the current project with setProjectID.
@@ -20,7 +25,7 @@ const domInteraction = (() => {
         const currentProject = document.querySelector('#ProjectSelection');
         // console.log(allProj.showProject())
         projectModalOpen(allProj)
-        projectSelectionOptions(allProj, currentProject)
+        changeSelection(allProj, currentProject)
 
         currentProject.addEventListener("change", e =>{
             const selectedProject = allProj.showProject()[e.target.value]
@@ -30,7 +35,7 @@ const domInteraction = (() => {
         })
     }
 
-    const projectSelectionOptions = (allProj, currentProject) => {
+    const changeSelection = (allProj, currentProject) => {
         DomDisplay.clearProjectSelection()
         allProj.showProject().forEach((project, projIndex) => {
             const thisProject = document.createElement('option')
@@ -136,7 +141,7 @@ const domInteraction = (() => {
             const projectInfo = projectModalInfo()
             const newProject = createProject(projectInfo.Name, projectInfo.desc)
             allProj.addProject(newProject)
-            projectSelectionOptions(allProj, currentProject)
+            changeSelection(allProj, currentProject)
             projectModal.close()       
         })
     })
@@ -165,7 +170,7 @@ const domInteraction = (() => {
 
 
         
-        return {projectSelectionOption}
+        return {projectSelectionOption, initialLoad}
 })();
 
 export default domInteraction;
