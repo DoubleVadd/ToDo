@@ -38,7 +38,7 @@ const createTasks = (Name='',desc='',date=new Date(),priority='low',complete=fal
         taskObj = JSON.parse(taskObj);
         taskName = taskObj.taskName;
         taskDesc = taskObj.taskDesc;
-        taskDate = taskObj.taskDate;
+        taskDate =new Date(taskObj.taskDate);
         taskPriority = taskObj.taskPriority;
         taskComplete = taskObj.taskComplete;
     }

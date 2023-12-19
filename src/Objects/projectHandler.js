@@ -6,7 +6,10 @@ import createProject from "./projects";
 const projectHandler = (project=[]) => {
     let currentProjects = project;
 
+    const newProjectHandler = (newData) => currentProjects = newData;
+
     const loadProject = (projectData) => {
+        console.log('loading', projectData)
         const newProject = JSON.parse(projectData);
         const processedProject = projectHandler()
         for(const proj in newProject){
@@ -19,7 +22,7 @@ const projectHandler = (project=[]) => {
             }
             processedProject.addProject(currentProject)
         }
-        return processedProject;
+        newProjectHandler(processedProject.showProject())
     }
 
     const exportProject = () =>{

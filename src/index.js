@@ -5,40 +5,29 @@ import storageAvailable from "./Objects/localStorageHandler";
 import DomDisplay from "./Domhandler/displayer";
 import domInteraction from "./Domhandler/domInteraction";
 
-const task1 = createTasks('cool','Coolest everest man',new Date(),'med',true);
-const task2 = createTasks('Cool2', 'cool wamen')
-const task3 = createTasks('sad')
-const proj2 = createProject('saddest')
-const proj = createProject('coolest');
+// Initialise the Template Project
+const task1 = createTasks('Task 1','This is the First Task',new Date(),'low');
+const proj = createProject('Project 1', 'This is the default Project');
 const allProj = projectHandler()
-const storageStatus = storageAvailable('localStorage');
-
 proj.addTask(task1);
-proj.addTask(task2);
-proj2.addTask(task3)
 allProj.addProject(proj);
-allProj.addProject(proj2);
 
-
-if (storageStatus && localStorage.getItem('projectData')){
-    allProj.loadProject(localStorage.getItem('projectData'))
-    console.log('loaded')
-} else{
-    console.log('No Storage Found')
-}
-
-if (storageStatus){
-    // console.log(allProj)
-    localStorage.setItem('projectData',allProj.exportProject())
-    console.log('saved to storage')
-}
-
+// If Project exists, Load that Project, else, utilise the template project
+const storageStatus = storageAvailable('localStorage');
 storageStatus ? allProj.loadProject(localStorage.getItem('projectData')) : allProj
+
+// if (storageStatus && localStorage.getItem('projectData')){
+//     allProj.loadProject(localStorage.getItem('projectData'))
+//     console.log('Storage loaded')
+// } else{
+//     console.log('No Storage Found')
+// }
+
 
 
 domInteraction.initialLoad(allProj)
+domInteraction.setAllProject(allProj)
 domInteraction.projectSelectionOption(allProj)
 domInteraction
-
 
 

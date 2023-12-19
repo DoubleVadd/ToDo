@@ -9,13 +9,27 @@ const domInteraction = (() => {
     let ProjectID = 0;
     const getProjectID = () => ProjectID
     const setProjectID = (newID) => ProjectID = newID
+
+    let globalProject = ''
+    const setAllProject = (allProj) => globalProject = allProj
+    const getAllProject = () => globalProject
+
+    
+    const save = () => {
+        localStorage.setItem('projectData', getAllProject().exportProject()) 
+        console.log('saved to storage')
+        console.log(localStorage.getItem('projectData'))
+    }
     
     const currentTask = {currentTitle:'',currentDesc:'',currentPriority:'low',currentDate:'',currentCompletion:''}
 
     const initialLoad = (allProj) => {
         document.addEventListener("DOMContentLoaded", () => {
             console.log("DOM fully loaded and parsed");
+            DomDisplay.createTaskModal(`0`)
             projectSelectionRender(allProj.showProject()[0], 0)
+            taskModalOpen(allProj.showProject()[0], `0`)
+
         });
     }
 
@@ -92,7 +106,6 @@ const domInteraction = (() => {
         taskPriority.addEventListener('input', e => currentTask.changePriority(e.target.value))
         taskDate.addEventListener('input', e => currentTask.changeDate(e.target.value))
 
-
     }
 
 
@@ -132,7 +145,8 @@ const domInteraction = (() => {
             thisProj.addTask(newTask)
             projectSelectionRender(thisProj, id)
 
-            taskModal.close()       
+            taskModal.close()
+            save()     
         })
     })
 
@@ -142,7 +156,8 @@ const domInteraction = (() => {
             const newProject = createProject(projectInfo.Name, projectInfo.desc)
             allProj.addProject(newProject)
             changeSelection(allProj, currentProject)
-            projectModal.close()       
+            projectModal.close()
+            save()  
         })
     })
     
@@ -167,10 +182,12 @@ const domInteraction = (() => {
             // complete:taskComplete.checked
         }
     }
-
+    const  periodicSave = window.setInterval(function(){
+        save()
+      }, 5000);
 
         
-        return {projectSelectionOption, initialLoad}
+        return {projectSelectionOption, initialLoad, setAllProject}
 })();
 
 export default domInteraction;
