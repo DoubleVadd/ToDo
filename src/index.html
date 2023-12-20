@@ -23,6 +23,7 @@
 
             </form>
         </dialog>
+
         <dialog class="project-dialog">
             <form action=""class='create Project'>
                 <legend>Create Project</legend>
@@ -30,6 +31,12 @@
                 <input type="text" placeholder="Project Description" class="create-desc project-title">
                 <button type="button" class="project-create">create</button>
             </form>
+        </dialog>
+
+        <dialog class="project-delete-dialog">
+            <p>This will Delete Every Task Within This Project, Are you Sure?</p>
+            <button class="ignore-delete">No</button>
+            <button class="project-delete">Yes</button>
         </dialog>
 
         <article class="project-container">
@@ -47,6 +54,7 @@
                         <option value="project1" selected>Project 1</option>
                     </select>
                     <button class="add-project">Add Project</button>
+                    <button class="delete-this-project">Delete Project</button>
                 </div>
             </section>
             <section class="list-container">

@@ -64,6 +64,7 @@ const domInteraction = (() => {
     const projectSelectionRender = (selectedProject, projectID) => {
         DomDisplay.clearTask()
         setProjectID([projectID])
+        // projectDeleteModalOpen()
         DomDisplay.updateHeader(selectedProject.getName(), selectedProject.getDesc())
         selectedProject.getTasks().forEach((task, taskIndex) => {
             DomDisplay.createTask(task.getAll(), `${getProjectID()}p${taskIndex}`)
@@ -153,6 +154,36 @@ const domInteraction = (() => {
         })
         
     }
+
+    
+
+    const projectDeleteModal = ((currentProject, projectModal) => {
+        const deleteButton = document.querySelector('.project-delete')
+        const ignoreButton = document.querySelector('.ignore-delete')
+        deleteButton.addEventListener('click', e => {
+            getAllProject().removeProject(getProjectID())
+            changeSelection(getAllProject(), currentProject)
+            projectModal.close()
+            save()  
+        })
+        ignoreButton.addEventListener('click', e => {
+            projectModal.close()
+        })
+
+    })
+
+    const projectDeleteModalOpen = (() => {
+        const currentProject = document.querySelector('#ProjectSelection');
+        const deleteModal = document.querySelector('.project-delete-dialog');
+        const projectOpenButton = document.querySelector('.delete-this-project');
+        const deleteProjectModal = projectDeleteModal(currentProject, deleteModal)
+        projectOpenButton.addEventListener('click', () =>{
+            deleteModal.showModal();
+            deleteProjectModal
+            
+        })
+
+    })()
 
     const taskModalGet = ((thisProj, id, taskModal, createButton) => {
         createButton.addEventListener('click', e => {

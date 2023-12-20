@@ -8,6 +8,10 @@ const projectHandler = (project=[]) => {
 
     const newProjectHandler = (newData) => currentProjects = newData;
 
+    let projectCount = currentProjects.length;
+    const getCount = () => projectCount;
+    const setCount = (newCount) =>  projectCount = newCount
+
     const loadProject = (projectData) => {
         console.log('loading', projectData)
         const newProject = JSON.parse(projectData);
@@ -22,6 +26,7 @@ const projectHandler = (project=[]) => {
             }
             processedProject.addProject(currentProject)
         }
+        setCount(processedProject.showProject().length)
         newProjectHandler(processedProject.showProject())
     }
 
@@ -41,12 +46,18 @@ const projectHandler = (project=[]) => {
 
     const showProject = () => currentProjects;
 
-    const addProject = (newProject) => currentProjects.push(newProject)
+    const addProject = (newProject) => {
+        currentProjects.push(newProject)
+        ++projectCount
+    }
     
     
     const removeProject = (index) => {
-        if (index < currentProjects.length) {
+        console.log(index)
+        console.log( getCount())
+        if (index < getCount()) {
             currentProjects.splice(index, 1);
+            --projectCount
         }
     }
 
