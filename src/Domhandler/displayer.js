@@ -40,7 +40,7 @@ const DomDisplay = (() =>{
     // Clears the note of selected task, called when task is selected
     const clearNote = () => {
         const taskNote = document.querySelector('.note-container')
-        taskNote.innerHTML = '';
+        taskNote.innerHTML = `<section class="empty-Note"><p>No Task Selected</p></section>`
     }
 
     const updateHeader = (projectName, projectDescription) => {
@@ -109,7 +109,7 @@ const DomDisplay = (() =>{
                                                     <option value="med"  ${task.taskPriority === 'med' ? 'selected>med' : '>med'}</option>
                                                     <option value="high" ${task.taskPriority === 'high' ? 'selected>high' : '>high'}</option>
                                                 </select>
-                                                <button class="delete">X</button>
+                                                <button type='button' class="deleteTask">X</button>
                                             </div>
 
                                         </div>
@@ -124,6 +124,11 @@ const DomDisplay = (() =>{
         
         `
         taskList.append(li);
+    }
+    const removeTask = (id) => {
+        const li = document.getElementById(`${id}`)
+        li.remove()
+
     }
 
     const createNote = (task,projectName, id) => {
@@ -165,7 +170,7 @@ const DomDisplay = (() =>{
     }
     
     
-    return {createTask, clearTask, taskDisplay, clearNote, updateHeader, createTaskModal, clearProjectSelection}
+    return {createTask,removeTask, clearTask, taskDisplay, clearNote, updateHeader, createTaskModal, clearProjectSelection}
 })();
 
 

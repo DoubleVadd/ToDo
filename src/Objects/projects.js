@@ -17,7 +17,7 @@ const createProject = (projectName='', projectDesc='') => {
         taskList.push(newTask)
     };
     const removeTask = (index) => {
-        if (index < taskList.length) {
+        if (index < getCount()) {
             taskList.splice(index, 1);
             --taskCount
         }

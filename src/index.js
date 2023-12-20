@@ -14,15 +14,7 @@ allProj.addProject(proj);
 
 // If Project exists, Load that Project, else, utilise the template project
 const storageStatus = storageAvailable('localStorage');
-storageStatus ? allProj.loadProject(localStorage.getItem('projectData')) : allProj
-
-// if (storageStatus && localStorage.getItem('projectData')){
-//     allProj.loadProject(localStorage.getItem('projectData'))
-//     console.log('Storage loaded')
-// } else{
-//     console.log('No Storage Found')
-// }
-
+storageStatus && localStorage.getItem('projectData') ? allProj.loadProject(localStorage.getItem('projectData')) : allProj
 
 
 domInteraction.initialLoad(allProj)
