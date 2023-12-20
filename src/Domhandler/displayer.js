@@ -37,6 +37,19 @@ const DomDisplay = (() =>{
         const taskNote = document.querySelector('#ProjectSelection')
         taskNote.innerHTML = '';
     }
+    
+    // DomDisplay.selectedProjectOption(projectID)
+    const selectedProjectOption = (projectID) => {
+        // alert(projectID)
+        const taskNote = document.querySelector('#ProjectSelection')
+        // console.log('current projectIndex', projectID)
+        taskNote.value = projectID
+        // console.log(projectID)
+        // console.log(taskNote)
+
+    }
+
+
     // Clears the note of selected task, called when task is selected
     const clearNote = () => {
         const taskNote = document.querySelector('.note-container')
@@ -156,21 +169,24 @@ const DomDisplay = (() =>{
     // Displays the Task details on the right side of the screen, should be activated when task is clicked from the task list
     const taskDisplay = (task,projectName, taskID) => {
         clearNote()
-        createNote(task,projectName, taskID)
-        const taskName = document.querySelector('.task-name-big')
-        taskName.textContent = task.taskName
-        const taskPriority = document.querySelector('.priority')
-        taskPriority.textContent = task.taskPriority
-        const taskDueDate = document.querySelector('.due-date')
-        taskDueDate.value = task.taskDate
-        const taskDesc = document.querySelector('#taskDesc')
-        taskDesc.value = task.taskDesc
-        
+        if (task && projectName && taskID){
+            createNote(task,projectName, taskID)
+            const taskName = document.querySelector('.task-name-big')
+            taskName.textContent = task.taskName
+            const taskPriority = document.querySelector('.priority')
+            taskPriority.textContent = task.taskPriority
+            const taskDueDate = document.querySelector('.due-date')
+            taskDueDate.value = task.taskDate
+            const taskDesc = document.querySelector('#taskDesc')
+            taskDesc.value = task.taskDesc
+        } else {
+            clearNote()
+        }
 
     }
     
     
-    return {createTask,removeTask, clearTask, taskDisplay, clearNote, updateHeader, createTaskModal, clearProjectSelection}
+    return {createTask,removeTask, clearTask, taskDisplay, clearNote, updateHeader, createTaskModal, clearProjectSelection, selectedProjectOption}
 })();
 
 

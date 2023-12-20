@@ -53,15 +53,15 @@ const projectHandler = (project=[]) => {
     
     
     const removeProject = (index) => {
-        console.log(index)
-        console.log( getCount())
+        // console.log(index)
+        // console.log( getCount())
         if (index < getCount()) {
             currentProjects.splice(index, 1);
             --projectCount
         }
     }
 
-    return {showProject, addProject, removeProject, loadProject, exportProject, currentProjects}
+    return {showProject, addProject, removeProject, loadProject, exportProject, currentProjects, getCount}
 }
 
 export default projectHandler

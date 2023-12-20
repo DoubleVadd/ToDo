@@ -5,92 +5,110 @@ import createProject from "../Objects/projects";
 
 const domInteraction = (() => {
     
-    // const allProj = projectHandler
+    // The Current Project Identifier given list of Projects, managed through index
     let ProjectID = 0;
     const getProjectID = () => ProjectID
     const setProjectID = (newID) => ProjectID = newID
 
+    // The current Project handler, Needs to be initialised when the function first runs to function properly
     let globalProject = ''
     const setAllProject = (allProj) => globalProject = allProj
     const getAllProject = () => globalProject
 
-    
+    // Saving functionality, Runs every 5 seconds
     const save = () => {
         localStorage.setItem('projectData', getAllProject().exportProject()) 
-        // console.log('saved to storage')
-        // console.log(localStorage.getItem('projectData'))
     }
+    // Determines the saving duration
+    const  periodicSave = window.setInterval(function(){
+        save()
+      }, 5000);
     
-    const currentTask = {currentTitle:'',currentDesc:'',currentPriority:'low',currentDate:'',currentCompletion:''}
-
-    const initialLoad = (allProj) => {
+    
+    // On the initial load, set it up with the first chosen project, should be changed to last saved project down the line
+    const initialLoad = () => {
         document.addEventListener("DOMContentLoaded", () => {
             console.log("DOM fully loaded and parsed");
             DomDisplay.createTaskModal(`0`)
-            projectSelectionRender(allProj.showProject()[0], 0)
-            taskModalOpen(allProj.showProject()[0], `0`)
+            projectSelectionRender(getAllProject().showProject()[0], 0)
+            taskModalOpen(getAllProject().showProject()[0], `0`)
 
         });
     }
 
     // Project selection and updating the tasks visible based on the current selected project
     // Keep track of the current project with setProjectID.
-    const projectSelectionOption = (allProj) => {
+    const projectSelectionOption = () => {
         const currentProject = document.querySelector('#ProjectSelection');
-        // console.log(allProj.showProject())
-        projectModalOpen(allProj)
-        changeSelection(allProj, currentProject)
+        projectModalOpen()
+        renderProjectOptions( currentProject)
+        displayProjectTasks( currentProject)
+    }
 
+    // On dropdown change, reRender the Task Lists
+    const displayProjectTasks = ( currentProject) =>{
         currentProject.addEventListener("change", e =>{
-            const selectedProject = allProj.showProject()[e.target.value]
+            const selectedProject = getAllProject().showProject()[e.target.value]
             DomDisplay.createTaskModal(`${getProjectID()}`)
             projectSelectionRender(selectedProject, e.target.value)
             taskModalOpen(selectedProject, `${getProjectID()}`)
         })
     }
 
-    const changeSelection = (allProj, currentProject) => {
+    // Render the dropdown menu containing all projects we currently have access to
+    const renderProjectOptions = ( currentProject) => {
         DomDisplay.clearProjectSelection()
-        allProj.showProject().forEach((project, projIndex) => {
+        getAllProject().showProject().forEach((project, projIndex) => {
             const thisProject = document.createElement('option')
             thisProject.value = projIndex
             thisProject.textContent = project.getName()
-            // console.log(thisProject)
             currentProject.append(thisProject)
-            
         });
     }
 
+    // Render the Page for the currently Selected Project given the project Object and project Id, set the Global Project ID
     const projectSelectionRender = (selectedProject, projectID) => {
         DomDisplay.clearTask()
-        setProjectID([projectID])
-        // projectDeleteModalOpen()
-        DomDisplay.updateHeader(selectedProject.getName(), selectedProject.getDesc())
-        selectedProject.getTasks().forEach((task, taskIndex) => {
-            DomDisplay.createTask(task.getAll(), `${getProjectID()}p${taskIndex}`)
-            taskUpdate(selectedProject, task, `${getProjectID()}p${taskIndex}`, taskIndex)
-        })
-        taskOpen(selectedProject)                   
+        setProjectID(projectID)
+        // If the project does not give Null
+        if (selectedProject){
+            DomDisplay.selectedProjectOption(projectID)
+            DomDisplay.updateHeader(selectedProject.getName(), selectedProject.getDesc())
+            selectedProject.getTasks().forEach((task, taskIndex) => {
+                DomDisplay.createTask(task.getAll(), `${getProjectID()}p${taskIndex}`)
+                taskUpdate(selectedProject, task, `${getProjectID()}p${taskIndex}`, taskIndex)
+            })
+            taskOpen(selectedProject)    
+        }               
         }
 
-    // Opens the task on the right side of the page
+    // Opens the Expanded view of the Project, show list of tasks
     const taskOpen = (currentProj) => {
         const tasks = document.querySelectorAll('.individualTask');
         tasks.forEach( (task, taskIndex) => {
             const taskID = `${getProjectID()}p${taskIndex}`
             const taskInfo = currentProj.getTasks()[taskIndex]
-            const DeleteBtn = document.querySelector(`#task-${taskID} .deleteTask`)
+            // for each of the tasks, expand on click, showing the task information
 
-            
+
+
+
             task.addEventListener('click', e =>{
                 DomDisplay.taskDisplay(taskInfo.getAll(),currentProj.getName(),taskID)
                 noteUpdate(taskInfo, taskID)
-                
+                if (e.target.className == `deleteTask`){
+                    DomDisplay.removeTask(taskID)
+                    currentProj.removeTask(taskIndex)
+                    DomDisplay.taskDisplay()
+                }
+
             })
+
+            
 
         })
     }
-
+    // Create an expanded note for each task and save the changed values
     const noteUpdate = (currentTask, taskID) => {
         const taskDesc = document.querySelector(`#note-${taskID} #taskDesc`)
         if (taskDesc) {
@@ -103,50 +121,58 @@ const domInteraction = (() => {
 
     }
 
+    // Save any changes to the individual task inputs, and delete tasks with a button click
     const taskUpdate = (selectedProject, currentTask, taskID, taskIndex) => {
         // change for each
         const taskTitle = document.querySelector(`#task-${taskID} .task-title`)
         const taskPriority = document.querySelector(`#task-${taskID} #taskPriority`)
         const taskComplete = document.querySelector(`#task-${taskID} #complete`)
         const taskDate = document.querySelector(`#task-${taskID} #dueDate`)
-        const DeleteBtn = document.querySelector(`#task-${taskID} .deleteTask`)
+        
         // const taskDesc = document.querySelector(`#note-${taskID} #taskDesc`)
         taskTitle.addEventListener('input', e => currentTask.changeName(e.target.value))
         taskComplete.addEventListener('input', e=> currentTask.changeCompletion())
         taskPriority.addEventListener('input', e => currentTask.changePriority(e.target.value))
         taskDate.addEventListener('input', e => currentTask.changeDate(e.target.value))
-        DeleteBtn.addEventListener('click', e => {
-            // console.log(taskIndex)
-            DomDisplay.removeTask(taskID)
-            selectedProject.removeTask(taskIndex)
-            
-        }) 
+
+        // const DeleteBtn = document.querySelector(`#task-${taskID} .deleteTask`)
+        // DeleteBtn.addEventListener('click', e => {
+        //     // console.log(taskIndex)
+        //     DomDisplay.removeTask(taskID)
+        //     selectedProject.removeTask(taskIndex)
+        //     DomDisplay.taskDisplay()    
+        // }) 
 
     }
 
 
     // MODALS -------------------------------------------------------//
 
+    // Add task Modal to create new tasks for the current project
     const taskModalOpen = (thisProj, id) => {
         const taskModal = document.querySelector('.task-dialog');
         const createButton = document.querySelector('.task-create')
         const taskOpenButton = document.querySelector('.add-task');
         const taskForm = document.querySelector('form.create-task')
-        const newTaskModal = taskModalGet(thisProj, id, taskModal, createButton)
-        taskOpenButton.addEventListener('click', () =>{
-            taskForm.reset()
-            taskModal.showModal();
-            newTaskModal
-        })
+        
+        if(thisProj && getAllProject().getCount()){
+            const newTaskModal = taskModalGet(thisProj, id, taskModal, createButton)
+            taskOpenButton.addEventListener('click', () =>{
+                taskForm.reset()
+                taskModal.showModal();
+                newTaskModal
+            })
+        }
+        
         
     }
 
-    const projectModalOpen = (allProj) => {
-        const currentProject = document.querySelector('#ProjectSelection');
+    // Add project modal, create new project, and set it as current project, refresh the page
+    const projectModalOpen = () => {
         const projectModal = document.querySelector('.project-dialog');
         const createButton = document.querySelector('.project-create')
         const projectOpenButton = document.querySelector('.add-project');
-        const newProjectModal = projectModalGet(allProj, currentProject, projectModal, createButton)
+        const newProjectModal = projectModalGet(projectModal, createButton)
         projectOpenButton.addEventListener('click', () =>{
             projectModal.showModal();
             newProjectModal
@@ -157,12 +183,27 @@ const domInteraction = (() => {
 
     
 
+    // Modal For Deleting the current selected Project
     const projectDeleteModal = ((currentProject, projectModal) => {
         const deleteButton = document.querySelector('.project-delete')
         const ignoreButton = document.querySelector('.ignore-delete')
+        // On Delete, Refresh the page into the first Project that Exists, and reset the Notes
         deleteButton.addEventListener('click', e => {
-            getAllProject().removeProject(getProjectID())
-            changeSelection(getAllProject(), currentProject)
+            if(getAllProject().getCount()>1){
+                getAllProject().removeProject(getProjectID())
+                setProjectID(0)
+                renderProjectOptions( currentProject)
+                displayProjectTasks( currentProject)
+                if(getAllProject().showProject()[0]){
+                    projectSelectionRender(getAllProject().showProject()[0], 0)
+                }
+                DomDisplay.clearNote()
+            }else{
+                alert('There Must be Minimum of 1 Project')
+            }
+            
+
+            
             projectModal.close()
             save()  
         })
@@ -172,6 +213,7 @@ const domInteraction = (() => {
 
     })
 
+    // Opening a delete model for the project on button click
     const projectDeleteModalOpen = (() => {
         const currentProject = document.querySelector('#ProjectSelection');
         const deleteModal = document.querySelector('.project-delete-dialog');
@@ -182,12 +224,11 @@ const domInteraction = (() => {
             deleteProjectModal
             
         })
-
     })()
 
+    // Create the task and add it to the current project, rerender the page
     const taskModalGet = ((thisProj, id, taskModal, createButton) => {
         createButton.addEventListener('click', e => {
-            // console.log(e, createButton)
             const taskInfo = taskModalInfo()
             const newTask = createTasks(taskInfo.Name, taskInfo.desc, new Date(taskInfo.date), taskInfo.priority, taskInfo.complete)
             thisProj.addTask(newTask)
@@ -198,12 +239,25 @@ const domInteraction = (() => {
         })
     })
 
-    const projectModalGet = ((allProj,currentProject, projectModal, createButton) => {
+    // Create a New project set it
+    const projectModalGet = ((projectModal, createButton) => {
         createButton.addEventListener('click', e => {
             const projectInfo = projectModalInfo()
             const newProject = createProject(projectInfo.Name, projectInfo.desc)
-            allProj.addProject(newProject)
-            changeSelection(allProj, currentProject)
+            
+
+            getAllProject().addProject(newProject)
+            setProjectID(getAllProject().getCount()-1)
+            DomDisplay.createTaskModal(getAllProject().getCount()-1)
+            taskModalOpen(newProject, getAllProject().getCount()-1)
+
+            const currentProject = document.querySelector('#ProjectSelection');
+            renderProjectOptions( currentProject)
+            displayProjectTasks( currentProject)
+
+            projectSelectionRender(newProject, getAllProject().getCount()-1)
+
+
             projectModal.close()
             save()  
         })
@@ -230,10 +284,6 @@ const domInteraction = (() => {
             // complete:taskComplete.checked
         }
     }
-    const  periodicSave = window.setInterval(function(){
-        save()
-      }, 5000);
-
         
         return {projectSelectionOption, initialLoad, setAllProject}
 })();
