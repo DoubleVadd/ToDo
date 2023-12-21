@@ -5,6 +5,7 @@ import storageAvailable from "./Objects/localStorageHandler";
 import DomDisplay from "./Domhandler/displayer";
 import domInteraction from "./Domhandler/domInteraction";
 import './style.css'
+// import './Images/logo32x32.ico'
 
 // Initialise the Template Project
 const task1 = createTasks('Task 1','This is the First Task',new Date(),'low');
