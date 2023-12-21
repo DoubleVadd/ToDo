@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple ToDo</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="./images/logo32x32.ico">
+    <title>Simple To.Do</title>
 <script defer src="main.bundle.js"></script></head>
 <body>
     <main>
@@ -48,12 +50,14 @@
                 <div>
                     <h4 class="project-description">description</h4>
                 </div>
-                <div>   
+                <div class="project-selection-div">
+                    <div>   
                     <label for="ProjectSelection">Selected Project: </label>
                     <select name="projectSelection" id="ProjectSelection">
                         <option value="project1" selected>Project 1</option>
                     </select>
                     <button class="add-project">Add Project</button>
+                    </div>
                     <button class="delete-this-project">Delete Project</button>
                 </div>
             </section>
@@ -77,13 +81,15 @@
                                                 <option value="low" selected>Low</option>
                                                 <option value="med" >Medium</option>
                                                 <option value="high" >High</option>
+                                                <input type="checkbox" name="complete" id="complete">
                                             </select>
-                                            <button class="delete">X</button>
+            
                                         </div>
 
                                     </div>
                                     <div class="task-right">
-                                        <input type="checkbox" name="complete" id="complete">
+                                        
+                                        <button class="delete">X</button>
                                     </div>
                                 </fieldset>
                             </form>

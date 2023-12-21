@@ -53,6 +53,13 @@ const DomDisplay = (() =>{
     // Clears the note of selected task, called when task is selected
     const clearNote = () => {
         const taskNote = document.querySelector('.note-container')
+        const activeTask = document.querySelector('.activeTask')
+        console.log(activeTask)
+        if(activeTask){
+            activeTask.classList.remove('activeTask')
+        }
+        
+
         taskNote.innerHTML = `<section class="empty-Note"><p>No Task Selected</p></section>`
     }
 
@@ -122,12 +129,13 @@ const DomDisplay = (() =>{
                                                     <option value="med"  ${task.taskPriority === 'med' ? 'selected>med' : '>med'}</option>
                                                     <option value="high" ${task.taskPriority === 'high' ? 'selected>high' : '>high'}</option>
                                                 </select>
-                                                <button type='button' class="deleteTask">X</button>
+                                                <input type="checkbox" name="complete" id="complete" ${task.taskComplete == true ? 'Checked' : ''}>
                                             </div>
 
                                         </div>
                                         <div class="task-right">
-                                            <input type="checkbox" name="complete" id="complete" ${task.taskComplete == true ? 'Checked' : ''}>
+                                            
+                                            <button type='button' class="deleteTask">Delete</button>
                                         </div>
                                     </fieldset>
                                 </form>
@@ -147,6 +155,8 @@ const DomDisplay = (() =>{
     const createNote = (task,projectName, id) => {
         const taskNote = document.querySelector('.note-container')
         taskNote.id = "note-"+id
+        const taskActive = document.querySelector(`#task-${id} .task-left`)
+        taskActive.classList.toggle('activeTask')
         taskNote.innerHTML = `<section class="task-header">
                 <div>
                     <h3 class="project-name">
