@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="./images/logo32x32.ico">
+    <title>Simple To.Do</title>
+<script defer src="main.bundle.js"></script></head>
+<body>
+    <main>
+
+        <dialog class="task-dialog">
+            <form action="" class="create-task">
+                <legend>Create Task</legend>
+                <input type="text" placeholder="Task 1" class="create-title">
+                <input type="textarea" placeholder="Description" class="create-desc">
+                <select name="taskPriority" id="createTaskPriority">
+                    <option value="low" selected>Low</option>
+                    <option value="med" >Medium</option>
+                    <option value="high" >High</option>
+                </select>
+                <input type="date" name="dueDate" id="CreateDueDate">
+                <button type="button" class="task-create">create</button>
+
+            </form>
+        </dialog>
+
+        <dialog class="project-dialog">
+            <form action=""class='create Project'>
+                <legend>Create Project</legend>
+                <input type="text" placeholder="Project 1" class="create-title project-title">
+                <input type="text" placeholder="Project Description" class="create-desc project-title">
+                <button type="button" class="project-create">create</button>
+            </form>
+        </dialog>
+
+        <dialog class="project-delete-dialog">
+            <p>This will Delete Every Task Within This Project, Are you Sure?</p>
+            <button class="ignore-delete">No</button>
+            <button class="project-delete">Yes</button>
+        </dialog>
+
+        <article class="project-container">
+            <section class="project-header">
+                <div>
+                    <h1 class="project-name">Project Name</h1>
+                    <h2 class="current-date"><span class="month">JAN</span><span class="date">21</span></h2>
+                </div>
+                <div>
+                    <h4 class="project-description">description</h4>
+                </div>
+                <div class="project-selection-div">
+                    <div>   
+                    <label for="ProjectSelection">Selected Project: </label>
+                    <select name="projectSelection" id="ProjectSelection">
+                        <option value="project1" selected>Project 1</option>
+                    </select>
+                    <button class="add-project">Add Project</button>
+                    </div>
+                    <button class="delete-this-project">Delete Project</button>
+                </div>
+            </section>
+            <section class="list-container">
+                <ul class="task-list">
+                    <li>
+                        <div class="task-container">
+                            <section class="task-item">
+                                <form action="" id="task1">
+                                <fieldset>
+                                    <legend class="task-name">Task1</legend>
+                            
+                                    <div class="task-left">
+                                        <div>
+                                            <input type="text" placeholder="Task 1" class="task-title">
+                                        </div>
+                                        
+                                        <div>
+                                            <input type="date" name="dueDate" id="dueDate">
+                                            <select name="taskPriority" id="taskPriority">
+                                                <option value="low" selected>Low</option>
+                                                <option value="med" >Medium</option>
+                                                <option value="high" >High</option>
+                                                <input type="checkbox" name="complete" id="complete">
+                                            </select>
+            
+                                        </div>
+
+                                    </div>
+                                    <div class="task-right">
+                                        
+                                        <button class="delete">X</button>
+                                    </div>
+                                </fieldset>
+                            </form>
+                            </section>
+
+                        </div>
+                    </li>
+                </ul>
+            </section>
+            <button class="add-task">Add Task</button>
+        </article>
+        <div class="divider"></div>
+        <article class="note-container">
+            <section class="empty-Note"><p>No Task Selected</p></section>
+            <!-- <section class="task-header">
+                <div>
+                    <h3 class="project-name">
+                        project-name
+                    </h3>
+                    <h1 class="task-name-big">
+                        Task 1
+                    </h1>
+                </div>
+                <div>
+                    <h2 class="due-date">Due <span>01/01/2024</span></h2>
+                    <h2 >Priority <span class="priority">High</span></h2>
+                </div>
+            </section>
+            <section class="task-note">
+                <label for="taskDesc">Task Details:</label>
+                <textarea name="taskDesc" id="taskDesc" cols="30" rows="10" class="taskdescription"></textarea>
+            </section> -->
+
+        </article>
+
+
+
+    </main>
+    
+</body>
+</html>
